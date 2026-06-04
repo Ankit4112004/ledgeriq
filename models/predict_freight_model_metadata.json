@@ -1,0 +1,23 @@
+{
+  "country": "India",
+  "currency": "INR",
+  "dataset": "Delivery Logistics Dataset (India - Multi-Partner)",
+  "training_rows": 25000,
+  "features": [
+    "distance_km",
+    "package_weight_kg",
+    "delivery_mode",
+    "vehicle_type",
+    "package_type",
+    "region",
+    "weather_condition"
+  ],
+  "target": "delivery_cost",
+  "best_model": "Ridge Regression",
+  "metrics": {
+    "model_name": "Ridge Regression",
+    "mae": 1.5796432905494178,
+    "rmse": 4.671668653317796,
+    "r2": 99.98839051038455
+  }
+}

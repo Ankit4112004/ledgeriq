@@ -1,0 +1,24 @@
+{
+  "country": "India",
+  "currency": "INR",
+  "dataset": "DTDC Courier Dataset",
+  "training_rows": 49639,
+  "features": [
+    "invoice_quantity",
+    "invoice_amount_inr",
+    "freight_inr",
+    "total_item_quantity",
+    "total_item_amount_inr",
+    "amount_gap_inr",
+    "quantity_gap",
+    "freight_ratio"
+  ],
+  "target": "flag_invoice",
+  "model": "India Invoice Review Random Forest",
+  "metrics": {
+    "model_name": "India Invoice Review Random Forest",
+    "accuracy": 0.9909347300564061,
+    "f1": 0.9878706199460916
+  },
+  "label_note": "Labels are derived by injecting controlled PO/GRN amount and quantity mismatches around India courier invoice charges."
+}
