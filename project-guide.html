@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vendor Performance Analytics + Ledger·IQ · Project &amp; Interview Guide</title>
+<style>
+  :root {
+    --bg: #0f1115; --bg-2: #14161b; --surface: #181b21; --surface-2: #1f232b;
+    --border: rgba(255,255,255,0.08); --border-strong: rgba(255,255,255,0.14);
+    --text: #ECEEF2; --text-2: #B4BAC4; --muted: #7E8694;
+    --accent: #38BDF8; --accent-dim: #0ea5c4; --green: #34D399; --blue: #60A5FA;
+    --indigo: #818CF8; --yellow: #FBBF24; --red: #F87171;
+    --mono: "JetBrains Mono","Fira Code","Cascadia Code",ui-monospace,monospace;
+    --sans: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:var(--sans); line-height:1.65; font-size:15.5px; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { display:flex; min-height:100vh; }
+  nav.toc { width:300px; flex-shrink:0; position:sticky; top:0; height:100vh; overflow-y:auto; background:var(--bg-2); border-right:1px solid var(--border); padding:24px 18px 60px; }
+  nav.toc .brand { display:flex; align-items:center; gap:10px; margin-bottom:6px; }
+  nav.toc .logo { width:34px; height:34px; border-radius:9px; background:linear-gradient(135deg,var(--accent),var(--indigo)); display:flex; align-items:center; justify-content:center; font-weight:800; color:#0b0d10; font-size:16px; box-shadow:0 0 22px rgba(56,189,248,0.35); }
+  nav.toc h1 { font-size:14.5px; margin:0; letter-spacing:.3px; }
+  nav.toc .sub { color:var(--muted); font-size:11.5px; margin:0 0 18px 44px; }
+  nav.toc .group { font-size:10.5px; text-transform:uppercase; letter-spacing:1.2px; color:var(--muted); margin:18px 0 6px; }
+  nav.toc a { display:block; color:var(--text-2); padding:5px 10px; border-radius:7px; font-size:13.5px; border-left:2px solid transparent; }
+  nav.toc a:hover { background:rgba(255,255,255,0.04); color:var(--text); text-decoration:none; }
+  nav.toc a.active { color:var(--accent); background:rgba(56,189,248,0.10); border-left-color:var(--accent); }
+  main { flex:1; max-width:990px; margin:0 auto; padding:44px 48px 120px; }
+  header.hero { margin-bottom:30px; }
+  header.hero .pill { display:inline-block; font-size:11.5px; letter-spacing:.8px; text-transform:uppercase; color:var(--accent); background:rgba(56,189,248,0.12); border:1px solid rgba(56,189,248,0.25); padding:4px 12px; border-radius:999px; margin-bottom:16px; }
+  header.hero h1 { font-size:39px; margin:0 0 10px; letter-spacing:-.5px; }
+  header.hero p.lead { font-size:18px; color:var(--text-2); max-width:780px; margin:0; }
+  section { margin:46px 0; scroll-margin-top:20px; }
+  h2 { font-size:26px; margin:0 0 6px; padding-bottom:10px; border-bottom:1px solid var(--border); }
+  h2 .num { color:var(--accent); font-family:var(--mono); font-size:18px; margin-right:10px; }
+  h3 { font-size:18.5px; margin:28px 0 8px; color:var(--text); }
+  h4 { font-size:15px; margin:18px 0 6px; color:var(--accent); }
+  p { margin:10px 0; color:var(--text); }
+  ul, ol { margin:10px 0; padding-left:22px; }
+  li { margin:5px 0; color:var(--text-2); }
+  li strong, p strong { color:var(--text); }
+  code { font-family:var(--mono); font-size:13px; background:rgba(255,255,255,0.07); padding:1.5px 6px; border-radius:5px; color:#bfe6f7; }
+  pre { background:#0b0d10; border:1px solid var(--border); border-radius:12px; padding:16px 18px; overflow-x:auto; font-family:var(--mono); font-size:13px; line-height:1.55; color:var(--text-2); margin:14px 0; }
+  pre code { background:none; padding:0; color:inherit; }
+  table { width:100%; border-collapse:collapse; margin:16px 0; font-size:14px; }
+  th, td { text-align:left; padding:10px 12px; border-bottom:1px solid var(--border); vertical-align:top; }
+  th { color:var(--accent); font-size:12px; text-transform:uppercase; letter-spacing:.6px; }
+  td { color:var(--text-2); }
+  td strong { color:var(--text); }
+  tr:hover td { background:rgba(255,255,255,0.02); }
+  .card { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:18px 20px; margin:14px 0; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .grid3 { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+  @media (max-width:860px){ .grid2,.grid3 { grid-template-columns:1fr; } nav.toc{display:none;} }
+  .callout { border-left:3px solid var(--accent); background:rgba(56,189,248,0.07); padding:12px 16px; border-radius:0 10px 10px 0; margin:14px 0; }
+  .callout.warn { border-left-color:var(--yellow); background:rgba(251,191,36,0.07); }
+  .callout.good { border-left-color:var(--green); background:rgba(52,211,153,0.07); }
+  .callout .t { font-weight:700; color:var(--text); display:block; margin-bottom:4px; }
+  .tag { display:inline-block; font-family:var(--mono); font-size:11px; padding:2px 8px; border-radius:6px; background:rgba(129,140,248,0.12); color:var(--indigo); border:1px solid rgba(129,140,248,0.25); margin:0 4px 4px 0; }
+  .kpi { display:inline-block; font-family:var(--mono); font-size:11px; padding:2px 8px; border-radius:6px; background:rgba(52,211,153,0.12); color:var(--green); border:1px solid rgba(52,211,153,0.25); margin:0 4px 4px 0; }
+  .stat { font-family:var(--mono); font-size:30px; font-weight:600; color:var(--accent); line-height:1; margin:2px 0 4px; }
+  .stat.g { color:var(--green); } .stat.i { color:var(--indigo); } .stat.y { color:var(--yellow); }
+  .statlbl { font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; }
+  .qa-controls { margin:8px 0 18px; }
+  .qa-controls button { font-family:var(--sans); font-size:12.5px; background:var(--surface-2); color:var(--text-2); border:1px solid var(--border-strong); border-radius:8px; padding:6px 13px; cursor:pointer; margin-right:8px; }
+  .qa-controls button:hover { color:var(--text); border-color:var(--accent); }
+  details.qa { background:var(--surface); border:1px solid var(--border); border-radius:12px; margin:10px 0; overflow:hidden; }
+  details.qa[open] { border-color:var(--border-strong); }
+  details.qa > summary { cursor:pointer; padding:14px 18px; font-weight:600; color:var(--text); list-style:none; display:flex; gap:12px; align-items:flex-start; }
+  details.qa > summary::-webkit-details-marker { display:none; }
+  details.qa > summary .qmark { color:var(--accent); font-family:var(--mono); font-weight:800; flex-shrink:0; }
+  details.qa > summary:hover { background:rgba(255,255,255,0.03); }
+  details.qa[open] > summary { border-bottom:1px solid var(--border); background:rgba(56,189,248,0.05); }
+  details.qa .answer { padding:4px 18px 18px; color:var(--text-2); }
+  details.qa .answer p:first-child { margin-top:12px; }
+  .cat-head { margin-top:30px; font-size:13px; text-transform:uppercase; letter-spacing:1px; color:var(--accent); border-top:1px dashed var(--border); padding-top:22px; }
+  footer { color:var(--muted); font-size:13px; border-top:1px solid var(--border); padding-top:22px; margin-top:50px; }
+  .diagram { background:#0b0d10; border:1px solid var(--border); border-radius:12px; padding:18px; overflow-x:auto; font-family:var(--mono); font-size:12px; line-height:1.4; color:var(--text-2); white-space:pre; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="toc">
+    <div class="brand"><div class="logo">VI</div><h1>Vendor Analytics — Guide</h1></div>
+    <p class="sub">Power BI + ML · interview &amp; reference</p>
+    <div class="group">Project</div>
+    <a href="#overview">1 · Overview</a>
+    <a href="#stack">2 · Tech Stack</a>
+    <a href="#architecture">3 · Architecture &amp; Pipeline</a>
+    <a href="#components">4 · Components in Detail</a>
+    <a href="#data">5 · Data Model &amp; KPIs</a>
+    <a href="#flows">6 · Key Data Flows</a>
+    <a href="#insights">7 · The Analysis &amp; Insights ★</a>
+    <a href="#stats">8 · Statistical Methods</a>
+    <a href="#powerbi">9 · The Power BI Dashboard</a>
+    <a href="#ledgeriq">10 · Ledger·IQ (ML Extension)</a>
+    <a href="#challenges">11 · Challenges &amp; Fixes</a>
+    <a href="#future">12 · Future Work</a>
+    <div class="group">Interview Prep</div>
+    <a href="#cheat">★ Cheat-sheet</a>
+    <a href="#qa">13 · Interview Q&amp;A</a>
+    <a href="#qa-arch">— Pipeline &amp; SQL</a>
+    <a href="#qa-eda">— EDA &amp; Insights</a>
+    <a href="#qa-stats">— Statistics</a>
+    <a href="#qa-bi">— Power BI</a>
+    <a href="#qa-ml">— Machine Learning</a>
+    <a href="#qa-biz">— Business Sense</a>
+    <a href="#qa-behav">— Behavioral</a>
+    <a href="#qa-why">— Motivation &amp; Why</a>
+    <a href="#rapid">14 · Rapid-Fire Round</a>
+    <a href="#glossary">15 · Glossary</a>
+    <a href="#ask">16 · Ask Them &amp; Résumé</a>
+  </nav>
+
+  <main>
+    <header class="hero" id="top">
+      <span class="pill">Data Analytics Capstone</span>
+      <h1>Vendor Performance Analytics &amp; Ledger·IQ</h1>
+      <p class="lead">An end-to-end retail analytics project for an alcohol/beverage distributor: raw transaction CSVs are ingested into a SQL database, aggregated into a vendor-level summary with custom KPIs, explored statistically in Python, and surfaced in a Power BI dashboard — then extended with a deployed machine-learning app that forecasts freight and flags risky invoices.</p>
+    </header>
+
+    <section id="overview">
+      <h2><span class="num">01</span>Overview</h2>
+      <p><strong>Elevator pitch:</strong> A wholesale beverage distributor buys from many vendors and sells thousands of brands. Profit lives or dies on which vendors and brands to back, how much to buy, and how much capital is frozen in unsold stock. This project takes the messy raw data — purchases, prices, sales, and freight invoices — and turns it into <strong>decisions</strong>: it builds a clean vendor-level summary in SQL, runs a full exploratory + statistical analysis in Python, and presents the findings in a Power BI dashboard. A second deliverable, <strong>Ledger·IQ</strong>, is a deployed Streamlit app that puts two machine-learning models in front of finance: one forecasts freight cost, the other flags invoices that don't reconcile with their purchase order.</p>
+      <div class="grid2">
+        <div class="card"><h4>What it does</h4><ul>
+          <li>Ingests raw CSVs into a SQLite database (one table per file)</li>
+          <li>Joins 4 tables into a single vendor-brand summary via SQL CTEs</li>
+          <li>Engineers profitability KPIs (margin, turnover, gross profit)</li>
+          <li>Runs EDA: distributions, correlations, outliers, data quality</li>
+          <li>Tests hypotheses (confidence intervals, t-test) on vendor margins</li>
+          <li>Visualizes it all in an interactive Power BI report</li>
+          <li><strong>Ledger·IQ:</strong> ML freight forecast + invoice-risk classifier (live app)</li>
+        </ul></div>
+        <div class="card"><h4>Why it's interesting</h4><ul>
+          <li>Real, messy data — negative profits, infinities, missing values</li>
+          <li>Pipeline thinking: ingestion → transform → analyze → present</li>
+          <li>Set-based SQL (CTEs) instead of slow row-by-row Python</li>
+          <li>Findings backed by <em>statistics</em>, not just charts</li>
+          <li>A clear business narrative: concentration risk, dead stock, bulk pricing</li>
+          <li>An ML layer that closes the loop into operational decisions</li>
+        </ul></div>
+      </div>
+      <div class="callout"><span class="t">Two deliverables, one story</span>The <strong>analytics</strong> project explains <em>what happened and why</em> (descriptive + diagnostic). <strong>Ledger·IQ</strong> turns that understanding into <em>what to do next</em> (predictive + prescriptive). Together they walk the full analytics maturity ladder.</div>
+      <p><strong>Live links:</strong> Power BI report (app.powerbi.com share link) · Ledger·IQ app at <code>ledgeriq.streamlit.app</code>.</p>
+    </section>
+
+    <section id="stack">
+      <h2><span class="num">02</span>Tech Stack</h2>
+      <table>
+        <tr><th>Layer</th><th>Technology</th><th>Why</th></tr>
+        <tr><td><strong>Storage / Query</strong></td><td>SQLite (<code>inventory.db</code>), SQLAlchemy, SQL CTEs</td><td>Lightweight embedded DB; set-based joins/aggregation at the source</td></tr>
+        <tr><td><strong>Data wrangling</strong></td><td>Python, pandas, NumPy</td><td>Cleaning, feature engineering, glue between DB and analysis</td></tr>
+        <tr><td><strong>Analysis / Stats</strong></td><td>Jupyter, Matplotlib, Seaborn, SciPy / statsmodels</td><td>EDA, correlation heatmaps, confidence intervals, hypothesis tests</td></tr>
+        <tr><td><strong>BI / Reporting</strong></td><td>Power BI Desktop (<code>vendor_performance.pbix</code>)</td><td>Interactive dashboard for non-technical stakeholders</td></tr>
+        <tr><td><strong>Logging</strong></td><td>Python <code>logging</code> module</td><td>Auditable ingestion + summary build steps</td></tr>
+        <tr><td><strong>ML (Ledger·IQ)</strong></td><td>scikit-learn, joblib</td><td>Regression (freight) + classification (invoice risk) pipelines</td></tr>
+        <tr><td><strong>App / Deploy</strong></td><td>Streamlit (Streamlit Community Cloud)</td><td>Turns the models into a live, self-serve finance tool</td></tr>
+      </table>
+      <p><span class="tag">Python</span><span class="tag">pandas</span><span class="tag">NumPy</span><span class="tag">SQLite</span><span class="tag">SQLAlchemy</span><span class="tag">SQL / CTEs</span><span class="tag">Jupyter</span><span class="tag">Matplotlib</span><span class="tag">Seaborn</span><span class="tag">SciPy</span><span class="tag">Power BI</span><span class="tag">scikit-learn</span><span class="tag">Streamlit</span><span class="tag">joblib</span></p>
+    </section>
+
+    <section id="architecture">
+      <h2><span class="num">03</span>Architecture &amp; Pipeline</h2>
+      <p>The analytics project is a classic <strong>ELT pipeline</strong>: load raw files into a database, transform with SQL into an analysis-ready table, then analyze and present. Ledger·IQ is a parallel <strong>train-once / serve-many</strong> ML pipeline built on its own India logistics datasets.</p>
+      <div class="diagram">
+   RAW CSVs                  INGEST                  TRANSFORM (SQL)            ANALYZE / PRESENT
+ ┌──────────────┐      ┌──────────────────┐     ┌──────────────────────┐    ┌──────────────────┐
+ │ purchases    │      │ ingestion_db.py  │     │ get_vendor_summary.py│    │ Jupyter EDA       │
+ │ purchase_    │ ───► │ for each *.csv:  │ ──► │  CTEs:               │ ─► │  + stats          │
+ │   prices     │      │  read_csv →      │     │   FreightSummary     │    │ ────────────────  │
+ │ sales        │      │  to_sql(table)   │     │   PurchaseSummary    │    │ Power BI .pbix    │
+ │ vendor_      │      │                  │     │   SalesSummary       │    │  dashboard        │
+ │   invoice    │      │  inventory.db    │     │  → JOIN → clean →    │    └──────────────────┘
+ └──────────────┘      │  (SQLite)        │     │    add KPIs →        │
+                       └──────────────────┘     │  vendor_sales_summary│
+                                                └──────────┬───────────┘
+                                                           │ exported
+                                                           ▼
+                                                vendor_sales_summary.csv (18 cols)
+
+   ── Ledger·IQ (separate ML deliverable) ───────────────────────────────────────────────
+   India CSVs ─► preprocessing ─► train.py (sklearn pipelines) ─► .pkl + metadata.json
+                                                                       │
+                       Streamlit app.py  ◄── inference/ (load .pkl) ◄──┘   ► ledgeriq.streamlit.app
+      </div>
+      <h3>Why a database + SQL, not pure pandas?</h3>
+      <ul>
+        <li><strong>Set-based aggregation at the source</strong> — joining and grouping four large tables is what SQL engines are built for; doing it in SQL keeps memory low and the logic declarative.</li>
+        <li><strong>One table per file</strong> — the ingestion script names each table after its CSV, so the schema mirrors the raw data and is easy to reason about.</li>
+        <li><strong>Reproducibility</strong> — the summary is a single query; rerun it and you get the same analysis-ready table every time.</li>
+        <li><strong>Separation of stages</strong> — ingestion, transformation, and analysis are independent scripts/notebooks that can be rerun in isolation.</li>
+      </ul>
+    </section>
+
+    <section id="components">
+      <h2><span class="num">04</span>Components in Detail</h2>
+      <h3>ingestion_db.py — load raw data</h3>
+      <p>Walks the <code>data/</code> folder, reads every <code>.csv</code> into a pandas DataFrame, and writes it to <code>inventory.db</code> with <code>df.to_sql(table_name, engine, if_exists='replace')</code> — the table name is the filename without its extension. A SQLAlchemy engine (<code>sqlite:///inventory.db</code>) is the connection, and the whole run is timed and logged. Net effect: the four source tables (<code>purchases</code>, <code>purchase_prices</code>, <code>sales</code>, <code>vendor_invoice</code>) land in one database.</p>
+      <h3>get_vendor_summary.py — build the analysis table</h3>
+      <p>The heart of the transform. One SQL query with three <strong>CTEs</strong> stitches the tables together:</p>
+      <pre><code>FreightSummary   → freight cost per VendorNumber           (from vendor_invoice)
+PurchaseSummary  → purchase qty/$ per vendor·brand, joined  (purchases ⋈ purchase_prices)
+                   to actual price &amp; volume; PurchasePrice &gt; 0
+SalesSummary     → sales qty/$/price/excise per vendor·brand (from sales)
+
+PurchaseSummary  LEFT JOIN SalesSummary  (on vendor+brand)
+                 LEFT JOIN FreightSummary (on vendor)
+ORDER BY TotalPurchaseDollars DESC</code></pre>
+      <p>Then <code>clean_data()</code> casts <code>Volume</code> to float, fills missing values with 0, strips whitespace from <code>VendorName</code>/<code>Description</code>, and engineers four KPIs (below). The cleaned frame is written back into the DB as <code>vendor_sales_summary</code> and exported to <code>vendor_sales_summary.csv</code>.</p>
+      <div class="callout"><span class="t">Why LEFT JOIN from purchases?</span>Every purchased brand should appear even if it never sold — those rows (sales = 0) are exactly the slow-moving / dead-stock items the analysis cares about. An inner join would silently hide them.</div>
+      <h3>The notebooks — EDA &amp; analysis</h3>
+      <ul>
+        <li><strong>Exploratory Data Analysis.ipynb</strong> — first pass over the raw tables: shapes, dtypes, value ranges, relationships, deciding which columns matter.</li>
+        <li><strong>Vendor Performance Analysis.ipynb</strong> — the deep dive on the summary table: distributions, correlation heatmap, outliers, the business questions, and the statistical tests. This is where the insights in §7 come from.</li>
+      </ul>
+      <h3>vendor_performance.pbix — the dashboard</h3>
+      <p>Power BI Desktop report built on the summary table: KPI cards, top-vendor/brand bars, scatter of sales vs margin, and the procurement-concentration view. The shareable Power BI Service link is the stakeholder-facing deliverable.</p>
+      <h3>Ledger·IQ — the ML app</h3>
+      <p>A self-contained Streamlit project (in <code>Inventory-Invoice-Analytics/</code>) with two trained models, an inference layer, and a polished dark-themed UI. Covered in full in §10.</p>
+    </section>
+
+    <section id="data">
+      <h2><span class="num">05</span>Data Model &amp; KPIs</h2>
+      <h3>Source tables</h3>
+      <table>
+        <tr><th>Table</th><th>Grain</th><th>Key columns used</th></tr>
+        <tr><td><strong>purchases</strong></td><td>purchase line</td><td>VendorNumber, VendorName, Brand, Description, PurchasePrice, Quantity, Dollars</td></tr>
+        <tr><td><strong>purchase_prices</strong></td><td>brand</td><td>Brand, Price (actual), Volume</td></tr>
+        <tr><td><strong>sales</strong></td><td>sales line</td><td>VendorNo, Brand, SalesQuantity, SalesDollars, SalesPrice, ExciseTax</td></tr>
+        <tr><td><strong>vendor_invoice</strong></td><td>invoice</td><td>VendorNumber, Freight</td></tr>
+      </table>
+      <h3>vendor_sales_summary — the analysis table (18 columns)</h3>
+      <p>One row per <strong>vendor × brand</strong>. Identity &amp; raw measures: <code>VendorNumber, VendorName, Brand, Description, PurchasePrice, ActualPrice, Volume, TotalPurchaseQuantity, TotalPurchaseDollars, TotalSalesQuantity, TotalSalesDollars, TotalSalesPrice, TotalExciseTax, FreightCost</code>. Plus four engineered KPIs:</p>
+      <table>
+        <tr><th>KPI</th><th>Formula</th><th>Tells you</th></tr>
+        <tr><td><strong>GrossProfit</strong></td><td>TotalSalesDollars − TotalPurchaseDollars</td><td>Absolute profit per vendor·brand (can be negative)</td></tr>
+        <tr><td><strong>ProfitMargin</strong></td><td>GrossProfit / TotalSalesDollars × 100</td><td>Profitability as a % of revenue</td></tr>
+        <tr><td><strong>StockTurnover</strong></td><td>TotalSalesQuantity / TotalPurchaseQuantity</td><td>How fast stock sells; &gt;1 means selling from older stock</td></tr>
+        <tr><td><strong>SalesToPurchaseRatio</strong></td><td>TotalSalesDollars / TotalPurchaseDollars</td><td>Revenue generated per dollar of purchasing</td></tr>
+      </table>
+      <p><span class="kpi">GrossProfit</span><span class="kpi">ProfitMargin</span><span class="kpi">StockTurnover</span><span class="kpi">SalesToPurchaseRatio</span></p>
+      <div class="callout warn"><span class="t">Data-quality landmines (and why they matter)</span><code>ProfitMargin</code> goes to <strong>−∞</strong> when sales are 0; <code>StockTurnover</code> can be undefined; some rows have <strong>negative</strong> gross profit (sold below cost). These aren't bugs to delete — they're the <em>signal</em> (dead stock, loss-makers) the analysis is hunting for. The cleaning step fills NaNs with 0 deliberately, and the EDA calls these out explicitly.</div>
+    </section>
+
+    <section id="flows">
+      <h2><span class="num">06</span>Key Data Flows</h2>
+      <h3>① Ingestion</h3>
+      <pre><code>data/*.csv → pandas.read_csv → df.to_sql(filename, engine, replace) → inventory.db</code></pre>
+      <h3>② Build the summary</h3>
+      <pre><code>connect(inventory.db) → create_vendor_summary() (3 CTEs + joins)
+                      → clean_data() (cast, fillna, strip, +4 KPIs)
+                      → ingest_db('vendor_sales_summary') + export CSV</code></pre>
+      <h3>③ Analyze</h3>
+      <pre><code>read_sql / read_csv → describe() → correlation heatmap → groupby business questions
+                    → confidence intervals → two-sample t-test → conclusions</code></pre>
+      <h3>④ Present</h3>
+      <pre><code>vendor_sales_summary → Power BI import → DAX measures → visuals → publish share link</code></pre>
+      <h3>⑤ Ledger·IQ inference (live)</h3>
+      <pre><code>user inputs → Streamlit form → inference/*.py loads .pkl → model.predict
+            → plain-language verdict + confidence rendered in the UI</code></pre>
+    </section>
+
+    <section id="insights">
+      <h2><span class="num">07</span>The Analysis &amp; Insights ★</h2>
+      <p>This is the payload of the project — the business questions and what the data answered. Memorize a few of these numbers; they're what make the project concrete in an interview.</p>
+
+      <h3>Summary-statistics findings</h3>
+      <ul>
+        <li><strong>Loss-making transactions exist.</strong> Minimum GrossProfit is <strong>−52,002.78</strong> — some brands sell below cost (deep discounts or mispricing).</li>
+        <li><strong>Unsold stock.</strong> Min TotalSalesQuantity and SalesDollars are <strong>0</strong> — products purchased but never sold (slow-moving / obsolete).</li>
+        <li><strong>ProfitMargin hits −∞</strong> where revenue is zero or below cost — a data-quality flag handled in cleaning.</li>
+        <li><strong>Premium-product outliers.</strong> Max PurchasePrice/ActualPrice (5,681 / 7,499) tower over the means (~24 / ~36) — a long-tail of high-end items.</li>
+        <li><strong>Freight varies wildly</strong> — 0.09 to 257,032 — hinting at logistics inefficiency or bulk shipments.</li>
+        <li><strong>StockTurnover 0 → 274.5</strong> — some items fly off shelves, others sit indefinitely.</li>
+      </ul>
+
+      <h3>Correlation findings</h3>
+      <ul>
+        <li><strong>Purchase qty ↔ sales qty = 0.999</strong> — near-perfect; inventory generally turns over efficiently in aggregate.</li>
+        <li><strong>PurchasePrice barely correlates with revenue/profit</strong> (−0.012 / −0.016) — price level alone doesn't drive sales.</li>
+        <li><strong>ProfitMargin ↔ sales price = −0.179</strong> — higher prices come with thinner margins (competitive pressure).</li>
+        <li><strong>StockTurnover weakly negative with profitability</strong> — fast turnover ≠ more profit.</li>
+      </ul>
+
+      <div class="grid3">
+        <div class="card"><div class="stat y">65.69%</div><div class="statlbl">of procurement $ from top vendors</div></div>
+        <div class="card"><div class="stat g">~72%</div><div class="statlbl">unit-cost drop on bulk orders</div></div>
+        <div class="card"><div class="stat i">p ≪ 0.05</div><div class="statlbl">margin gap is statistically real</div></div>
+      </div>
+
+      <h3>Business-question findings</h3>
+      <ul>
+        <li><strong>Vendor concentration risk.</strong> The top vendors account for <strong>~65.7%</strong> of total purchase dollars; the remaining vendors only ~34.3%. High dependency = supply risk → diversify suppliers.</li>
+        <li><strong>Bulk purchasing pays off.</strong> Large-order vendors get the lowest unit price (<strong>~$10.78/unit</strong>), roughly a <strong>72% reduction</strong> vs small orders — bulk pricing strategy works, if inventory is managed.</li>
+        <li><strong>Promotion candidates.</strong> Brands with <em>high margin but low sales volume</em> are prime for promotions/price adjustments to lift volume.</li>
+        <li><strong>Slow-moving inventory &amp; locked capital.</strong> Vendors with low StockTurnover tie up capital in unsold stock and rack up holding costs (warehouse, insurance, depreciation) — flagged for action.</li>
+        <li><strong>Top performers by sales</strong> are identified for both vendors and brands to focus commercial effort.</li>
+      </ul>
+
+      <div class="callout good"><span class="t">The counter-intuitive headline</span>Low-sales vendors have <strong>higher</strong> profit margins (95% CI ≈ <strong>40.5%–42.6%</strong>) than top-selling vendors (≈ <strong>30.7%–31.6%</strong>). Big sellers run on volume + thin margins; small vendors lean on premium pricing. The strategic move differs per group: high performers optimize cost/bundling; low performers need marketing &amp; distribution, not more margin.</div>
+    </section>
+
+    <section id="stats">
+      <h2><span class="num">08</span>Statistical Methods</h2>
+      <p>What lifts this above a charting exercise: the conclusions are tested, not eyeballed.</p>
+      <h3>95% Confidence intervals on profit margin</h3>
+      <p>Computed separately for top-performing and low-performing vendor groups. The intervals <strong>don't overlap</strong> (≈30.7–31.6% vs ≈40.5–42.6%), which is the first signal the two groups are genuinely different — not noise.</p>
+      <h3>Two-sample hypothesis test</h3>
+      <pre><code>H₀: mean profit margin (top) = mean profit margin (low)   — no difference
+H₁: the means differ
+Result: p-value ≪ 0.05  →  reject H₀</code></pre>
+      <p>The tiny p-value says the margin gap is <strong>statistically significant</strong>, and its size makes it <strong>practically meaningful</strong> too — the two vendor segments really do operate on different economics, justifying different strategies.</p>
+      <div class="callout"><span class="t">How to talk about it</span>"I didn't just notice small vendors looked more profitable — I quantified it with confidence intervals, then confirmed it with a two-sample t-test. Non-overlapping CIs plus a p-value far below 0.05 means I can defend that finding, not just assert it."</div>
+    </section>
+
+    <section id="powerbi">
+      <h2><span class="num">09</span>The Power BI Dashboard</h2>
+      <p>The summary table is imported into Power BI Desktop, where DAX measures and visuals turn it into an interactive report for non-technical stakeholders.</p>
+      <div class="grid2">
+        <div class="card"><h4>Typical visuals</h4><ul>
+          <li>KPI cards: total sales, total purchases, gross profit, avg margin</li>
+          <li>Top-N vendors &amp; brands by sales / purchase dollars</li>
+          <li>Procurement-concentration view (top-vendor share)</li>
+          <li>Margin vs sales scatter (find promotion candidates)</li>
+          <li>Low-turnover / locked-capital table</li>
+        </ul></div>
+        <div class="card"><h4>Why Power BI here</h4><ul>
+          <li>Stakeholders self-serve — slice by vendor/brand without code</li>
+          <li>Refreshable against the same summary table</li>
+          <li>Publishes to a shareable link (no install for viewers)</li>
+          <li>Bridges the analyst's Python work and the business audience</li>
+        </ul></div>
+      </div>
+      <div class="callout"><span class="t">Division of labour</span>Heavy lifting (joins, KPIs, cleaning) happens once in <strong>SQL/Python</strong> so the model is clean; Power BI handles <strong>presentation and light DAX</strong>. Pushing transforms upstream keeps the report fast and the logic version-controlled.</div>
+    </section>
+
+    <section id="ledgeriq">
+      <h2><span class="num">10</span>Ledger·IQ — the ML Extension</h2>
+      <p>A deployed Streamlit app (<code>ledgeriq.streamlit.app</code>) that turns the analytics into action for procurement finance. India-specific: costs in <strong>INR</strong>, trained on Indian logistics data. Two modules.</p>
+
+      <h3>Module 1 — Freight Cost Forecast (Regression)</h3>
+      <ul>
+        <li><strong>Goal:</strong> predict delivery/freight cost before the carrier bills you, for budgeting &amp; sanity-checking quotes.</li>
+        <li><strong>Data:</strong> India Delivery Logistics dataset, <strong>25,000</strong> rows.</li>
+        <li><strong>Features:</strong> distance_km, package_weight_kg, delivery_mode, vehicle_type, package_type, region, weather_condition → target <code>delivery_cost</code>.</li>
+        <li><strong>Pipeline:</strong> <code>ColumnTransformer</code> (StandardScaler on numerics + OneHotEncoder on categoricals) → model. Three candidates trained: <strong>Ridge</strong>, Gradient Boosting, Random Forest; the lowest-MAE model is saved.</li>
+        <li><strong>Winner: Ridge Regression</strong> — MAE ≈ <strong>₹1.58</strong>, RMSE ≈ ₹4.67, R² ≈ <strong>99.99%</strong>.</li>
+      </ul>
+      <div class="callout warn"><span class="t">Be honest about that R²</span>99.99% is suspiciously perfect — the synthetic-ish logistics cost is almost a deterministic function of distance/weight/mode, so a linear model nails it. In an interview, <em>say that</em>: "the near-perfect R² tells me the target is largely a linear function of the inputs in this dataset; I'd validate on real held-out invoices before trusting it in production."</div>
+
+      <h3>Module 2 — Invoice Risk Review (Classification)</h3>
+      <ul>
+        <li><strong>Goal:</strong> flag invoices that don't reconcile with their purchase order so a human reviews them; auto-clear the rest.</li>
+        <li><strong>Data:</strong> DTDC Courier India dataset, <strong>49,639</strong> rows. Real PO-vs-invoice data is sensitive (GSTIN/payment), so labels are <strong>synthetically derived</strong> by injecting controlled amount/quantity mismatches into ~38% of rows.</li>
+        <li><strong>Base features:</strong> invoice_quantity, invoice_amount_inr, freight_inr, total_item_quantity, total_item_amount_inr. <strong>Engineered:</strong> amount_gap_inr, quantity_gap, freight_ratio — the reconciliation signals.</li>
+        <li><strong>Model:</strong> <code>RandomForestClassifier</code> (220 trees, max_depth 10, <code>class_weight='balanced'</code>) inside a StandardScaler pipeline; stratified split; tuned for F1.</li>
+        <li><strong>Performance:</strong> Accuracy ≈ <strong>99.1%</strong>, F1 ≈ <strong>0.988</strong>.</li>
+      </ul>
+      <div class="callout"><span class="t">Why F1 and class_weight, not accuracy alone?</span>Risky invoices are the minority and missing one is costly (financial leakage). <code>class_weight='balanced'</code> stops the model from ignoring the rare class, and F1 balances precision (don't cry wolf on clean invoices) against recall (don't miss real risks).</div>
+
+      <h3>The app &amp; serving</h3>
+      <ul>
+        <li><strong>train.py</strong> per module fits the pipeline, picks/saves the best model as <code>.pkl</code> + a <code>metadata.json</code> (dataset, features, metrics) for traceability.</li>
+        <li><strong>inference/</strong> loads the pickled pipeline and exposes <code>predict_freight_cost()</code> / <code>predict_invoice_flag()</code> — feature engineering re-applied identically at inference time.</li>
+        <li><strong>app.py</strong> — a heavily custom-styled (dark "Modern Dark" theme) two-module Streamlit UI. Every prediction comes with a <strong>confidence meter, the evidence factors, and a plain-language recommended action</strong> — so finance trusts the call, not just the number.</li>
+      </ul>
+      <p><span class="tag">Ridge</span><span class="tag">RandomForest</span><span class="tag">ColumnTransformer</span><span class="tag">OneHotEncoder</span><span class="tag">StandardScaler</span><span class="tag">Pipeline</span><span class="tag">GridSearchCV</span><span class="tag">joblib</span><span class="tag">Streamlit</span></p>
+    </section>
+
+    <section id="challenges">
+      <h2><span class="num">11</span>Engineering Challenges &amp; How They Were Solved</h2>
+      <table>
+        <tr><th>Challenge</th><th>Solution</th></tr>
+        <tr><td>Four tables at different grains (line / brand / invoice)</td><td>Three CTEs aggregate each to a common grain, then LEFT JOIN on vendor (+ brand) so nothing is dropped</td></tr>
+        <tr><td>ProfitMargin → −∞ and NaN turnover from zero sales</td><td>Treated as signal, not error; fillna(0) in cleaning and called out explicitly in EDA as dead-stock indicators</td></tr>
+        <tr><td>"Small vendors look more profitable" — is it real?</td><td>Confirmed with non-overlapping 95% CIs <em>and</em> a two-sample t-test (p ≪ 0.05) before claiming it</td></tr>
+        <tr><td>Doing big joins/aggregation in pandas was heavy</td><td>Pushed the work into SQL CTEs at the source; pandas only cleans + engineers KPIs on the reduced result</td></tr>
+        <tr><td>No public PO-vs-invoice dataset (sensitive GSTIN data)</td><td>Derived a supervised set by injecting controlled mismatches into real India courier charges</td></tr>
+        <tr><td>Rare risky-invoice class could be ignored by the model</td><td>class_weight='balanced' + stratified split + F1 as the tuning metric</td></tr>
+        <tr><td>Same feature engineering needed at train and serve time</td><td>Centralized derived-feature logic so inference re-applies the exact transforms; pipelines pickle scaler+model together</td></tr>
+      </table>
+    </section>
+
+    <section id="future">
+      <h2><span class="num">12</span>Future Work</h2>
+      <ul>
+        <li>Validate Ledger·IQ on <strong>real held-out invoices</strong> (the 99.99% R² needs a reality check).</li>
+        <li>Automate the pipeline (a scheduler/Airflow DAG) so ingestion → summary → refresh runs end-to-end.</li>
+        <li>Add data-quality tests (row counts, null thresholds, range checks) between stages.</li>
+        <li>Time-series view: track vendor margins and turnover over months, not just a snapshot.</li>
+        <li>Push KPI logic into a documented semantic layer / DAX measures with definitions.</li>
+        <li>Feature importance / SHAP on the invoice classifier so flags are explainable to auditors.</li>
+        <li>Direct DB → Power BI refresh instead of a CSV hop.</li>
+      </ul>
+    </section>
+
+    <section id="cheat">
+      <h2><span class="num">★</span>Interview Cheat-Sheet</h2>
+      <p>Skim this in the 10 minutes before an interview. Spoken, confident, short.</p>
+      <h3>🎤 30-second pitch (memorize)</h3>
+      <div class="card"><p style="color:var(--text)">"I built an end-to-end vendor performance analytics project for a beverage distributor. Raw purchase, sales, price, and freight data get ingested into a SQL database, then I use SQL CTEs to join them into one vendor-brand summary and engineer profitability KPIs — gross profit, margin, stock turnover. I ran a full EDA in Python, found things like <strong>~66% of procurement concentrated in the top vendors</strong> and that <strong>small vendors actually run higher margins than big ones</strong> — which I <strong>confirmed with confidence intervals and a t-test</strong>, not just a chart. I surfaced it all in a Power BI dashboard. Then I extended it into <strong>Ledger·IQ</strong>, a deployed ML app that forecasts freight cost and flags invoices that don't reconcile with their PO for manual review."</p></div>
+      <h3>🗣️ 2-minute structure</h3>
+      <ol>
+        <li><strong>Problem</strong> (15s) — a distributor's profit hinges on vendor, brand, and inventory choices buried in messy transaction data.</li>
+        <li><strong>Pipeline</strong> (25s) — ELT: CSVs → SQLite → SQL CTE summary with engineered KPIs → Python analysis → Power BI.</li>
+        <li><strong>Insights</strong> (30s) — concentration risk (~66%), bulk pricing (~72% cheaper/unit), and the counter-intuitive margin finding, backed by stats.</li>
+        <li><strong>The stats</strong> (20s) — CIs + two-sample t-test (p ≪ 0.05) so the headline finding is defensible.</li>
+        <li><strong>ML extension</strong> (20s) — Ledger·IQ: Ridge freight forecast + balanced Random Forest invoice classifier (F1 ≈ 0.99), live on Streamlit.</li>
+        <li><strong>Honest trade-off</strong> (10s) — synthetic labels and a too-perfect R² I'd validate on real data.</li>
+      </ol>
+      <div class="grid2">
+        <div class="card"><h4>💪 Power phrases</h4><ul>
+          <li>"I tested the finding, I didn't just chart it."</li>
+          <li>"I pushed the heavy joins into SQL and kept pandas for what it's good at."</li>
+          <li>"The negative margins weren't bugs — they were the answer."</li>
+          <li>"I went from <em>what happened</em> to <em>what to do</em> with the ML layer."</li>
+          <li>"Every KPI has a formula I can derive on the whiteboard."</li>
+        </ul></div>
+        <div class="card"><h4>✅ Emphasize</h4><ul>
+          <li>End-to-end ownership: ingest → SQL → stats → BI → ML → deploy.</li>
+          <li>Set-based SQL with CTEs, not row-by-row Python.</li>
+          <li>Statistical rigor (CIs, hypothesis testing).</li>
+          <li>Business translation: risk, locked capital, promotions.</li>
+          <li>A <em>shipped</em>, live app — not just a notebook.</li>
+        </ul></div>
+      </div>
+      <div class="callout warn"><span class="t">🚩 Don't say these</span><ul style="margin:6px 0 0">
+        <li><strong>Don't quote 99.99% R² as a triumph.</strong> Flag it as a red flag you'd investigate.</li>
+        <li><strong>Don't claim the invoice labels are real.</strong> They're synthetically injected mismatches — say so.</li>
+        <li><strong>Don't say "Power BI made the insights."</strong> The analysis did; Power BI presents it.</li>
+        <li><strong>Don't bluff a number.</strong> "~66%, I'd check the exact figure" beats a confident wrong one.</li>
+        <li><strong>Don't call correlation causation</strong> — especially the margin/price relationship.</li>
+      </ul></div>
+      <div class="grid2">
+        <div class="card"><h4>⚡ Quick facts <span style="color:var(--muted);font-weight:400;font-size:12px">(verify before quoting)</span></h4><ul>
+          <li><strong>4 KPIs:</strong> GrossProfit, ProfitMargin, StockTurnover, Sales/Purchase ratio.</li>
+          <li><strong>Concentration:</strong> top vendors ≈ 65.7% of purchase $.</li>
+          <li><strong>Bulk:</strong> ~$10.78/unit, ~72% cheaper than small orders.</li>
+          <li><strong>Margins:</strong> low vendors ≈40–43%, top ≈31%; t-test p ≪ 0.05.</li>
+          <li><strong>Freight model:</strong> Ridge, MAE ≈ ₹1.58, R² ≈ 99.99%, 25k rows.</li>
+          <li><strong>Invoice model:</strong> Random Forest, F1 ≈ 0.988, 49.6k rows.</li>
+        </ul></div>
+        <div class="card"><h4>🧭 Tough moments</h4><ul>
+          <li><strong>"I don't know"</strong> → "I'd check, but here's how I'd reason about it…"</li>
+          <li><strong>"Why SQL not pandas?"</strong> → set-based aggregation at the source, low memory, declarative.</li>
+          <li><strong>"Is the model overfit?"</strong> → "the R² makes me suspicious; here's how I'd validate."</li>
+          <li><strong>"So what?"</strong> → tie every number to a decision (diversify, promote, free capital).</li>
+        </ul></div>
+      </div>
+      <div class="callout good"><span class="t">🎯 One sentence to leave them with</span>"This project shows I can take raw, messy transactional data all the way to a tested insight, a stakeholder dashboard, and a live predictive tool — and explain the reasoning at every step."</div>
+    </section>
+
+    <section id="qa">
+      <h2><span class="num">13</span>Interview Q&amp;A</h2>
+      <p>A bank of likely questions with detailed answers. Click any to expand.</p>
+      <div class="qa-controls">
+        <button onclick="document.querySelectorAll('details.qa').forEach(d=>d.open=true)">Expand all</button>
+        <button onclick="document.querySelectorAll('details.qa').forEach(d=>d.open=false)">Collapse all</button>
+      </div>
+
+      <div class="cat-head" id="qa-arch">Pipeline, Database &amp; SQL</div>
+      <details class="qa"><summary><span class="qmark">Q</span>Walk me through the data pipeline end to end.</summary><div class="answer"><p>It's an ELT flow. <code>ingestion_db.py</code> reads each CSV in <code>data/</code> and loads it into a SQLite database as its own table via <code>to_sql</code>. Then <code>get_vendor_summary.py</code> runs one SQL query with three CTEs — FreightSummary, PurchaseSummary, SalesSummary — that aggregate the four source tables to a common grain and LEFT JOIN them into a vendor-brand summary. Python then cleans that result (cast, fillna, strip) and engineers four KPIs, writes it back as <code>vendor_sales_summary</code>, and exports a CSV. From there it's EDA in Jupyter and a Power BI dashboard, plus the Ledger·IQ ML app as a separate deliverable.</p></div></details>
+      <details class="qa"><summary><span class="qmark">Q</span>Why aggregate in SQL with CTEs instead of pandas?</summary><div class="answer"><p>The joins and group-bys are exactly what a SQL engine is optimized for — set-based operations close to the data, low memory, and declarative logic that reads like the business question. CTEs keep each aggregation (freight, purchases, sales) readable and independently checkable before the final join. pandas then only handles the lighter cleaning and feature engineering on the already-reduced table.</p></div></details>
+      <details class="qa"><summary><span class="qmark">Q</span>Why LEFT JOIN and not INNER JOIN in the summary?</summary><div class="answer"><p>Because I start from PurchaseSummary and LEFT JOIN sales — a brand that was purchased but never sold must still appear, with sales = 0. Those rows are the slow-moving and dead-stock items the analysis is specifically looking for. An inner join would silently drop exactly the records that carry the most business signal.</p></div></details>
+      <details class="qa"><summary><span class="qmark">Q</span>Explain the three CTEs.</summary><div class="answer"><p><strong>FreightSummary</strong> sums Freight per VendorNumber from vendor_invoice (freight is billed at the invoice/vendor level). <strong>PurchaseSummary</strong> joins purchases to purchase_prices on Brand to attach the actual price and volume, filters PurchasePrice &gt; 0, and sums quantity and dollars per vendor·brand. <strong>SalesSummary</strong> sums sales quantity, dollars, price, and excise per vendor·brand. The final SELECT joins purchases→sales on vendor+brand and purchases→freight on vendor.</p></div></details>
+      <details class="qa"><summary><span class="qmark">Q</span>Why SQLite and SQLAlchemy?</summary><div class="answer"><p>SQLite is a zero-config embedded database — perfect for a single-analyst project: the whole DB is one file, no server to run. SQLAlchemy gives a clean engine abstraction so <code>to_sql</code>/<code>read_sql_query</code> work uniformly and the same code could point at Postgres later by changing the connection string.</p></div></details>
+
+      <div class="cat-head" id="qa-eda">EDA &amp; Insights</div>
+      <details class="qa"><summary><span class="qmark">Q</span>What was your most important insight?</summary><div class="answer"><p>That small, low-sales vendors run <em>higher</em> profit margins (~40–43%) than the big-volume vendors (~31%). It's counter-intuitive — you'd assume the top sellers are the most profitable. The big players win on volume with thin margins; the small ones lean on premium pricing. It matters because the right strategy differs per segment: optimize cost and bundling for the big vendors, but invest in marketing and distribution for the small ones rather than squeezing more margin.</p></div></details>
+      <details class="qa"><summary><span class="qmark">Q</span>You found ~66% concentration — why does that matter?</summary><div class="answer"><p>The top vendors supply about 65.7% of total purchase dollars, leaving ~34% across everyone else. That's concentration risk: if one major vendor raises prices, has a supply disruption, or changes terms, the business is heavily exposed. The recommendation is to evaluate alternative suppliers for the most depended-on categories to de-risk procurement.</p></div></details>
+      <details class="qa"><summary><span class="qmark">Q</span>What did the correlation analysis tell you?</summary><div class="answer"><p>Purchase quantity and sales quantity correlate at 0.999 — inventory turns over efficiently in aggregate. Purchase price barely correlates with revenue or profit (≈ −0.01), so price level alone doesn't drive sales. And profit margin is mildly negatively correlated with sales price (−0.18), consistent with competitive pricing compressing margins on higher-priced items. I was careful to read these as associations, not causes.</p></div></details>
+      <details class="qa"><summary><span class="qmark">Q</span>How did you handle negative margins and infinities?</summary><div class="answer"><p>I didn't delete them — they're signal. Negative gross profit means selling below cost; a −∞ margin means zero revenue on purchased stock. The cleaning step fills NaNs with 0 and I call these out explicitly in the EDA as loss-makers and dead stock. They feed directly into the "locked capital" and "promotion candidate" recommendations.</p></div></details>
+      <details class="qa"><summary><span class="qmark">Q</span>What's the bulk-purchasing finding?</summary><div class="answer"><p>Grouping vendors by order size, the large-order group gets the lowest unit cost — around $10.78/unit, roughly a 72% reduction versus small orders. So bulk pricing successfully incentivizes larger purchases. The caveat is inventory management: the savings only materialize if that bulk stock actually sells rather than becoming the slow-moving inventory I flagged elsewhere.</p></div></details>
+
+      <div class="cat-head" id="qa-stats">Statistics</div>
+      <details class="qa"><summary><span class="qmark">Q</span>How did you confirm the margin difference was real?</summary><div class="answer"><p>Two ways. First, 95% confidence intervals on each group's mean margin — low performers ≈40.5–42.6%, top performers ≈30.7–31.6%. They don't overlap, which is a strong hint. Then a two-sample hypothesis test on the means: the p-value came out far below 0.05, so I reject the null that the means are equal. The effect is both statistically significant and large enough to be practically meaningful.</p></div></details>
+      <details class="qa"><summary><span class="qmark">Q</span>What does the p-value actually mean here?</summary><div class="answer"><p>It's the probability of seeing a margin gap this large (or larger) between the two vendor groups if there were truly no difference. A value far below 0.05 means that's very unlikely under the null, so I conclude the groups genuinely differ. I'm careful not to overclaim — it's evidence against "no difference," not proof of a specific cause.</p></div></details>
+      <details class="qa"><summary><span class="qmark">Q</span>What are the assumptions/limits of that test?</summary><div class="answer"><p>A two-sample t-test assumes roughly independent samples and, classically, normal-ish means (the CLT helps at these sample sizes) and comparable variances — Welch's version relaxes the equal-variance assumption. With heavy outliers in margin I'd sanity-check with a non-parametric Mann–Whitney test too. And "top vs low" depends on how I defined the groups, so the cutoff is a choice I'd disclose.</p></div></details>
+
+      <div class="cat-head" id="qa-bi">Power BI</div>
+      <details class="qa"><summary><span class="qmark">Q</span>Why do the transforms upstream instead of in Power BI?</summary><div class="answer"><p>Keeping the joins, cleaning, and KPI logic in SQL/Python means the model Power BI imports is already clean and the logic is version-controlled and testable. Power BI then handles presentation and light DAX. It keeps the report fast, avoids duplicating business logic in DAX, and means the same summary feeds both the dashboard and the notebooks.</p></div></details>
+      <details class="qa"><summary><span class="qmark">Q</span>What would a stakeholder do with the dashboard?</summary><div class="answer"><p>Slice performance by vendor and brand without touching code: see top vendors and the concentration share, spot high-margin/low-volume brands to promote, and find low-turnover vendors where capital is stuck. It turns my analysis into a self-serve tool, published as a link so viewers need nothing installed.</p></div></details>
+
+      <div class="cat-head" id="qa-ml">Machine Learning (Ledger·IQ)</div>
+      <details class="qa"><summary><span class="qmark">Q</span>Walk me through the freight model.</summary><div class="answer"><p>It's a regression on India logistics data (25k rows) predicting delivery cost from distance, weight, and categorical factors like mode, vehicle, region, and weather. I built a sklearn pipeline: ColumnTransformer with StandardScaler on the numerics and OneHotEncoder on the categoricals, feeding the model. I trained Ridge, Gradient Boosting, and Random Forest and kept the lowest-MAE one — Ridge won, with MAE around ₹1.58 and an R² near 99.99%.</p></div></details>
+      <details class="qa"><summary><span class="qmark">Q</span>That R² is suspiciously high. What's going on?</summary><div class="answer"><p>Right — I flag that rather than celebrate it. In this dataset the delivery cost is almost a deterministic linear function of distance and weight, so a linear model essentially recovers the formula. It tells me the data is "too clean" / partly synthetic. Before trusting it operationally I'd validate on real held-out invoices and watch for leakage; I'd expect the real-world error to be meaningfully higher.</p></div></details>
+      <details class="qa"><summary><span class="qmark">Q</span>How does the invoice classifier work and how are the labels made?</summary><div class="answer"><p>It's a Random Forest that decides whether an invoice should auto-clear or be held for review. Public PO-vs-invoice data is sensitive, so I derive labels: take real India courier invoice charges and inject controlled amount/quantity mismatches into ~38% of rows to simulate PO/GRN discrepancies. The features are the raw invoice/PO fields plus engineered gaps — amount_gap, quantity_gap, freight_ratio. It scores ~99% accuracy and 0.988 F1.</p></div></details>
+      <details class="qa"><summary><span class="qmark">Q</span>Why F1 and class_weight='balanced' instead of accuracy?</summary><div class="answer"><p>Risky invoices are the minority class, and missing one means money leaks out. Plain accuracy would let the model look great by just predicting "clean" every time. <code>class_weight='balanced'</code> makes the rare class count more during training, a stratified split preserves the ratio, and F1 keeps precision and recall in balance — I want to catch real risks without flagging every clean invoice and burying analysts.</p></div></details>
+      <details class="qa"><summary><span class="qmark">Q</span>How is the model served, and how do you avoid train/serve skew?</summary><div class="answer"><p>train.py fits the full pipeline and pickles it with joblib alongside a metadata.json recording dataset, features, and metrics. The inference module loads that pickle and re-applies the exact same derived-feature logic before predicting, and because the scaler/encoder live inside the pickled pipeline, the same preprocessing runs at train and serve time. The Streamlit app calls those inference functions and renders the prediction with a confidence meter and a plain-language rationale.</p></div></details>
+      <details class="qa"><summary><span class="qmark">Q</span>What are the weaknesses of the ML layer?</summary><div class="answer"><p>The big one is that both models lean on synthetic or near-deterministic data, so the metrics are optimistic — they need validation on real invoices. The invoice labels encode my injection rules, so the model partly learns those rules rather than organic fraud patterns. I'd add real labeled data, SHAP-based explanations for auditors, drift monitoring, and a human-in-the-loop feedback path so flagged-then-cleared invoices retrain the model.</p></div></details>
+
+      <div class="cat-head" id="qa-biz">Business Sense</div>
+      <details class="qa"><summary><span class="qmark">Q</span>If you presented one slide to the CFO, what's on it?</summary><div class="answer"><p>Three numbers and an action each: (1) ~66% of spend sits with the top vendors → diversify to cut supply risk; (2) bulk orders cost ~72% less per unit → push volume deals where stock will move; (3) X dollars of capital are locked in low-turnover inventory → run promotions / renegotiate on those brands. Each insight is tied to money and a decision, not just a chart.</p></div></details>
+      <details class="qa"><summary><span class="qmark">Q</span>How do these insights translate to dollars?</summary><div class="answer"><p>Concentration risk is a hedge against a price shock from a key vendor. Bulk pricing is direct margin if the stock turns. Freeing locked capital reduces holding costs — warehouse, insurance, depreciation — and releases cash. And Ledger·IQ's invoice flagging prevents overpayment by catching PO-to-invoice gaps before funds go out, while auto-clearing routine invoices cuts review labor.</p></div></details>
+
+      <div class="cat-head" id="qa-behav">Behavioral / Reflection</div>
+      <details class="qa"><summary><span class="qmark">Q</span>What are you most proud of?</summary><div class="answer"><p>That I didn't stop at "the chart looks like small vendors are more profitable." I quantified it — confidence intervals, then a hypothesis test — so the headline finding is defensible. And then I extended the whole thing past analysis into a deployed ML tool. It shows I can both be rigorous and ship.</p></div></details>
+      <details class="qa"><summary><span class="qmark">Q</span>What would you do differently?</summary><div class="answer"><p>Build data-quality checks between pipeline stages from day one, automate the refresh instead of running scripts by hand, and source real invoice data for Ledger·IQ rather than synthetic labels so the metrics are trustworthy. I'd also add a time dimension to study trends, not just a snapshot.</p></div></details>
+      <details class="qa"><summary><span class="qmark">Q</span>How did you validate your data was clean enough to trust?</summary><div class="answer"><p>I started with summary statistics and ranges, which surfaced the negatives, zeros, and infinities. I decided which were genuine signal (dead stock, loss-makers) versus computational artifacts (−∞ margin from zero revenue), handled the artifacts in cleaning, and checked the correlation between purchase and sales quantity (0.999) as a sanity check that the join didn't mangle the grain.</p></div></details>
+
+      <div class="cat-head" id="qa-why">Motivation &amp; "Why This Stack"</div>
+      <div class="callout"><span class="t">Tip</span>Personalize the motivation answers with a sentence of genuine context so they sound like <em>you</em>.</div>
+      <details class="qa"><summary><span class="qmark">Q</span>What motivated this project?</summary><div class="answer"><p>I wanted a project that wasn't just a clean Kaggle CSV and a model — I wanted the full arc a real analyst lives: messy multi-table data, business questions a manager would actually ask, statistical rigor so the answers hold up, and a deliverable a non-technical stakeholder can use. Vendor performance is a great domain for that because the decisions — who to buy from, how much, what's stuck — are concrete and tied to money. Then I pushed into ML because I wanted to turn the understanding into something operational, not just a report.</p></div></details>
+      <details class="qa"><summary><span class="qmark">Q</span>Why both Python and Power BI?</summary><div class="answer"><p>They do different jobs. Python (with SQL) is for the rigorous part — joining, cleaning, engineering KPIs, and running statistics that a dashboard can't. Power BI is for communication — letting a stakeholder explore the result without code. Using both is exactly how analytics works in practice: heavy lifting upstream, self-serve presentation downstream.</p></div></details>
+      <details class="qa"><summary><span class="qmark">Q</span>Why extend an analytics project with ML at all?</summary><div class="answer"><p>The analytics answers "what happened and why" — descriptive and diagnostic. The natural next rung is "what will happen / what should we do" — predictive and prescriptive. Ledger·IQ is that step: freight forecasting helps budgeting, and invoice flagging operationalizes the cost-discipline theme from the analysis. It shows I understand the analytics maturity ladder, not just one rung of it.</p></div></details>
+    </section>
+
+    <section id="rapid">
+      <h2><span class="num">14</span>Rapid-Fire Round</h2>
+      <div class="card">
+        <p><strong>Grain of the summary table?</strong> One row per vendor × brand.</p>
+        <p><strong>How many KPIs did you engineer?</strong> Four — gross profit, profit margin, stock turnover, sales-to-purchase ratio.</p>
+        <p><strong>StockTurnover &gt; 1 means?</strong> Sold more than purchased in the period — fulfilling from older stock.</p>
+        <p><strong>Concentration figure?</strong> Top vendors ≈ 65.7% of purchase dollars.</p>
+        <p><strong>Bulk unit price?</strong> ≈ $10.78, ~72% below small orders.</p>
+        <p><strong>Which group has higher margins?</strong> Low-sales vendors (~40–43% vs ~31%).</p>
+        <p><strong>How confirmed?</strong> Non-overlapping 95% CIs + two-sample t-test, p ≪ 0.05.</p>
+        <p><strong>Best freight model + metric?</strong> Ridge regression, MAE ≈ ₹1.58.</p>
+        <p><strong>Invoice model + metric?</strong> Random Forest classifier, F1 ≈ 0.988.</p>
+        <p><strong>Why class_weight balanced?</strong> Risky invoices are the rare, costly class.</p>
+        <p><strong>Where's Ledger·IQ deployed?</strong> Streamlit Community Cloud (ledgeriq.streamlit.app).</p>
+        <p><strong>Currency / region for ML?</strong> INR, India-specific logistics data.</p>
+        <p><strong>One-line risk you'd flag?</strong> The 99.99% R² — too perfect, needs real-data validation.</p>
+      </div>
+    </section>
+
+    <section id="glossary">
+      <h2><span class="num">15</span>Glossary</h2>
+      <table>
+        <tr><th>Term</th><th>Meaning</th></tr>
+        <tr><td><strong>ELT</strong></td><td>Extract, Load, Transform — load raw data first, transform inside the database.</td></tr>
+        <tr><td><strong>CTE</strong></td><td>Common Table Expression — a named <code>WITH</code> subquery that makes multi-step SQL readable.</td></tr>
+        <tr><td><strong>Grain</strong></td><td>The level one row represents (here: vendor × brand).</td></tr>
+        <tr><td><strong>Gross Profit</strong></td><td>Sales dollars − purchase dollars.</td></tr>
+        <tr><td><strong>Profit Margin</strong></td><td>Gross profit as a % of sales.</td></tr>
+        <tr><td><strong>Stock Turnover</strong></td><td>Sales quantity ÷ purchase quantity; how fast inventory sells.</td></tr>
+        <tr><td><strong>Confidence Interval</strong></td><td>A range that likely contains the true mean at a stated confidence (95%).</td></tr>
+        <tr><td><strong>p-value</strong></td><td>Probability of the observed result under the null hypothesis; small ⇒ reject null.</td></tr>
+        <tr><td><strong>ColumnTransformer</strong></td><td>sklearn tool to apply different preprocessing to numeric vs categorical columns.</td></tr>
+        <tr><td><strong>One-Hot Encoding</strong></td><td>Turning a category into binary indicator columns.</td></tr>
+        <tr><td><strong>class_weight='balanced'</strong></td><td>Weights classes inversely to frequency so the rare class isn't ignored.</td></tr>
+        <tr><td><strong>F1 score</strong></td><td>Harmonic mean of precision and recall; good for imbalanced classes.</td></tr>
+        <tr><td><strong>MAE / RMSE</strong></td><td>Mean Absolute / Root Mean Squared Error — average regression error in target units.</td></tr>
+        <tr><td><strong>GRN</strong></td><td>Goods Receipt Note — record of what was actually received against a PO.</td></tr>
+      </table>
+    </section>
+
+    <section id="ask">
+      <h2><span class="num">16</span>Smart Questions to Ask Them &amp; Résumé Lines</h2>
+      <h3>Ask the interviewer</h3>
+      <ul>
+        <li>"How do your analysts split work between SQL/Python and BI tools today?"</li>
+        <li>"When a finding is counter-intuitive, what's your bar for acting on it — do you require statistical testing?"</li>
+        <li>"Are predictive models in production here, or mostly descriptive reporting so far?"</li>
+        <li>"How do you handle data quality between source systems and the warehouse?"</li>
+      </ul>
+      <h3>Résumé bullets (tighten to your voice)</h3>
+      <ul>
+        <li>Built an ELT pipeline ingesting multi-table retail data into SQL and aggregating it with CTEs into a vendor-level KPI summary, cutting analysis prep to a single rerunnable query.</li>
+        <li>Surfaced ~66% vendor concentration and a statistically significant margin gap (two-sample t-test, p ≪ 0.05) between vendor segments, driving diversification and promotion recommendations.</li>
+        <li>Delivered an interactive Power BI dashboard for self-serve vendor/brand performance analysis.</li>
+        <li>Extended the analysis into Ledger·IQ, a deployed Streamlit ML app — Ridge freight forecaster (MAE ≈ ₹1.58) and a balanced Random Forest invoice-risk classifier (F1 ≈ 0.99).</li>
+      </ul>
+    </section>
+
+    <footer>
+      <p>Vendor Performance Analytics &amp; Ledger·IQ — project &amp; interview reference. Verify exact figures against the notebooks (<code>Vendor Performance Analysis.ipynb</code>) and model metadata before quoting them live. Built as a study guide; numbers reflect the analysis at time of writing.</p>
+    </footer>
+  </main>
+</div>
+
+<script>
+  // active TOC highlight on scroll
+  const links = [...document.querySelectorAll('nav.toc a')];
+  const map = new Map(links.map(a => [a.getAttribute('href').slice(1), a]));
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const a = map.get(e.target.id);
+        if (a) a.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-10% 0px -80% 0px' });
+  document.querySelectorAll('section[id]').forEach(s => obs.observe(s));
+</script>
+</body>
+</html>
