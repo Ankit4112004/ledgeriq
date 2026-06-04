@@ -1,9 +1,5 @@
 # Ledger·IQ: Vendor Invoice Intelligence
 
-![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python&logoColor=white)
-![Streamlit](https://img.shields.io/badge/Streamlit-1.x-FF4B4B?logo=streamlit&logoColor=white)
-![scikit-learn](https://img.shields.io/badge/scikit--learn-1.x-F7931E?logo=scikit-learn&logoColor=white)
-
 An end-to-end machine learning system designed to support procurement and finance operations by intelligently analyzing vendor invoices. The system is tailored for an **India-specific** supply chain context, forecasting logistics costs in INR and flagging high-risk discrepancies for manual review.
 
 ## Project Overview
