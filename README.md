@@ -1,116 +1,35 @@
-# Vendor Invoice Intelligence System  
-**Freight Cost Prediction & Invoice Risk Flagging**
+# Ledger·IQ: Vendor Invoice Intelligence
 
-## 📌 Table of Contents
-- <a href="#project-overview">Project Overview</a>
-- <a href="#business-objectives">Business Objectives</a>
-- <a href="#data-sources">Data Sources</a>
-- <a href="#eda">Exploratory Data Analysis</a>
-- <a href="#models-used">Models Used</a>
-- <a href="#metrics">Evaluation Metrics</a>
-- <a href="#application">Application</a>
-- <a href="#project-structure">Project Structure</a>
-- <a href="#how-to-run-this-project">How to Run This Project</a>
-- <a href="#author--contact">Author & Contact</a>
----
+![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-1.x-FF4B4B?logo=streamlit&logoColor=white)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-1.x-F7931E?logo=scikit-learn&logoColor=white)
 
-<h2><a class="anchor" id="project-overview"></a>📌 Project Overview</h2>
+An end-to-end machine learning system designed to support procurement and finance operations by intelligently analyzing vendor invoices. The system is tailored for an **India-specific** supply chain context, forecasting logistics costs in INR and flagging high-risk discrepancies for manual review.
 
-This project implements an **end-to-end machine learning system** designed to support finance teams by:
+## Project Overview
 
-1. **Predicting expected freight cost** for vendor invoices.
-2. **Flagging high-risk invoices** that require manual review due to abnormal cost, freight, or operational patterns.
+Processing vendor invoices manually is time-consuming and error-prone. This project automates two critical finance workflows:
+1. **Freight Cost Forecasting (Regression):** Predicts the expected logistics and freight costs based on distance, weight, and delivery mode.
+2. **Invoice Risk Review (Classification):** Surfaces invoices that exhibit abnormal cost gaps or operational mismatches compared to their purchase orders.
 
----
+By catching discrepancies before payment and accurately forecasting landed costs, **Ledger·IQ** minimizes financial leakage and streamlines the auto-approval of routine invoices.
 
-<h2><a class="anchor" id="business-objectives"></a>🎯 Business Objectives</h2>
+## Business Value
 
-### 1. Freight Cost Prediction (Regression)
+- **Reduce Financial Leakage:** Prevent overpayment by catching PO-to-invoice gaps early.
+- **Improve Landed Cost Accuracy:** Budget freight expenses confidently with predictive regression models.
+- **Scale Procurement Operations:** Auto-clear low-risk invoices and route only the exceptions to finance analysts, significantly reducing manual review fatigue.
 
-**Objective:**  
-Predict the expected freight cost for a vendor invoice using quantity, invoice value, and historical behavior.
+## Data Architecture & Modeling
 
-**Why it matters:**
-- Freight is a non-trivial component of landed cost.
-- Poor freight estimation impacts margin analysis and budgeting.
-- Early prediction improves procurement planning and vendor negotiation.
+The models are trained on real-world Indian logistics data, ensuring the predictive logic matches regional freight patterns and INR pricing.
 
-![](images/freight_prediction.png)
----
+* **Freight Forecasting (`Delivery_Logistics_India.csv`):** Utilizes delivery modes, vehicle types, package weights, and regional factors to train a Random Forest Regressor.
+* **Invoice Risk Classification (`DTDC_Courier_India.csv`):** Synthetically derives realistic invoice-to-PO mismatches from courier data to train a balanced Random Forest Classifier, optimized via GridSearchCV.
 
-### 2. Invoice Risk Flagging (Classification)
+### Evaluation Metrics
+- **Regression:** Optimized for minimal Mean Absolute Error (MAE) and R² Score.
+- **Classification:** Tuned for a high F1-score to handle class imbalance (prioritizing precision in flagging).
 
-**Objective:**  
-Predict whether a vendor invoice should be flagged for manual approval due to abnormal cost, freight, or delivery patterns.
 
-**Why it matters:**
-- Manual invoice review does not scale.
-- Financial leakage often occurs in large or complex invoices.
-- Early risk detection improves audit efficiency and operational control.
-
-![](images/flag_invoice_prediction.png)
----
-
-<h2><a class="anchor" id="data-sources"></a>📂 Data Sources</h2>
-
-This project is tailored for an **India-specific** supply chain and logistics context, utilizing INR metrics. Data is drawn from publicly available India logistics datasets:
-
-- `Delivery_Logistics_India.csv` – Real-world delivery cost, mode, vehicle type, and region data used to train the freight forecasting model.
-- `DTDC_Courier_India.csv` – Courier shipment records used to synthetically generate realistic PO-to-invoice amount and quantity mismatches for the invoice risk classifier.
-
-The data preprocessing pipelines clean and prepare these files to output India-native **invoice-level and freight features** (e.g., INR values).
-
----
-
-<h2><a class="anchor" id="eda"></a>📊 Exploratory Data Analysis (EDA)</h2>
-
-EDA focuses on **business-driven questions**, such as:
-
-- Do flagged invoices have higher financial exposure?
-- Does freight scale linearly with quantity?
-- Does freight cost depend on quantity?
-
-Statistical tests (t-tests) are used to confirm that flagged invoices differ meaningfully from normal invoices.
-
----
-
-<h2><a class="anchor" id="models-used"></a>🤖 Models Used</h2>
-
-### Regression (Freight Prediction)
-- Linear Regression (baseline)
-- Decision Tree Regressor
-- Random Forest Regressor (final model)
-
-### Classification (Invoice Flagging)
-- Logistic Regression (baseline)
-- Decision Tree Classifier
-- Random Forest Classifier (final model with GridSearchCV)
-
-Hyperparameter tuning is performed using **GridSearchCV** with F1-score to handle class imbalance.
-
----
-
-<h2><a class="anchor" id="metrics"></a>📈 Evaluation Metrics</h2>
-
-### Freight Prediction
-- MAE
-- RMSE
-- R² Score
-
-### Invoice Flagging
-- Accuracy
-- Precision, Recall, F1-score
-- Classification report
-- Feature importance analysis
-
----
-
-<h2><a class="anchor" id="application"></a>🖥 End-to-End Application</h2>
-
-A **Streamlit application** demonstrates the complete pipeline:
-
-- Input invoice details
-- Predict expected freight
-- Flag invoices in real time
-- Provide human-readable explanations
 
